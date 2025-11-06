@@ -1,5 +1,5 @@
 
-    const RAW = [
+    let RAW = [
       // -------- PARCIAL 1 --------
       { id: 'P1-01', parcial: 'p1', text: '¿Cómo nos podemos defender contra los ataques de fuerza bruta a las contraseñas?', subtitle: '(Escoge todas las correctas)', options: [
         ['A','Incorporar sales en el hash de contraseñas'],
@@ -261,3 +261,22 @@
         ['A','Espacios en blanco en texto'],['B','LSB'],['C','ASCII'],['D','Cifrado simétrico + estego']
       ], correct: ['B'] },
     ];
+
+    // Dedupe defensivo por texto (por si hay repetidas exactas)
+    (function () {
+      function normalizeText(s) {
+        return (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+      }
+      function dedupeByText(arr) {
+        const seen = new Set();
+        const out = [];
+        for (const q of arr) {
+          const key = normalizeText(q.text);
+          if (seen.has(key)) continue;
+          seen.add(key);
+          out.push(q);
+        }
+        return out;
+      }
+      RAW = dedupeByText(RAW);
+    })();

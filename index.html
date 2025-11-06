@@ -1,168 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz — Seguridad de la Información (Parcial 1 y 2)</title>
-  <script>
-    window.tailwind = { config: { corePlugins: { preflight: false } } };
-  </script>
+
+  <!-- Tailwind sin preflight -->
+  <script>window.tailwind = { config: { corePlugins: { preflight: false } } };</script>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    :root {
-      color-scheme: dark;
+    :root { color-scheme: dark; }
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
-
-    body {
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-    }
-
-    .glass {
-      background: rgba(17, 24, 39, .7);
-      backdrop-filter: blur(8px);
-    }
-
-    .choice:hover {
-      transform: translateY(-1px);
-    }
-
-    .shake {
-      animation: shake .25s ease-in-out 0s 2;
-    }
-
-    @keyframes shake {
-      0% {
-        transform: translateX(0)
-      }
-
-      25% {
-        transform: translateX(-2px)
-      }
-
-      50% {
-        transform: translateX(2px)
-      }
-
-      75% {
-        transform: translateX(-2px)
-      }
-
-      100% {
-        transform: translateX(0)
-      }
-    }
+    .glass{ background: rgba(17,24,39,.7); backdrop-filter: blur(8px); }
+    .choice:hover{ transform: translateY(-1px); }
+    .choice[aria-pressed="true"]{ outline: 2px solid rgb(56 189 248/1); outline-offset: 0; }
+    .shake{ animation: shake .25s ease-in-out 0s 2; }
+    @keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-2px)}50%{transform:translateX(2px)}75%{transform:translateX(-2px)}100%{transform:translateX(0)}}
+    /* Scrollbar fino para la barra lateral */
+    .thin-scrollbar{ scrollbar-width: thin; scrollbar-color: rgb(71 85 105) transparent; }
+    .thin-scrollbar::-webkit-scrollbar{ width: 8px; }
+    .thin-scrollbar::-webkit-scrollbar-track{ background: transparent; }
+    .thin-scrollbar::-webkit-scrollbar-thumb{ background-color: rgb(71 85 105); border-radius: 8px; }
   </style>
 </head>
-
 <body class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 text-slate-100">
   <div class="max-w-5xl mx-auto p-4 sm:p-6">
+    <!-- HEADER -->
     <header class="flex items-center justify-between gap-4 mb-6">
       <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Quiz — Seguridad de la Información</h1>
-      <button id="btnReset"
-        class="hidden px-3 py-2 rounded-xl bg-slate-800/70 hover:bg-slate-700 transition">Reiniciar</button>
+      <button id="btnReset" class="hidden px-3 py-2 rounded-xl bg-slate-800/70 hover:bg-slate-700 transition">Reiniciar</button>
     </header>
 
-    <!-- Panel de configuración -->
-    <section id="setup" class="glass rounded-2xl p-5 sm:p-6 shadow-xl">
-      <div class="grid sm:grid-cols-3 gap-4">
-        <div class="col-span-3 sm:col-span-1">
-          <label class="block text-sm mb-1">Banco de preguntas</label>
-          <select id="bank" class="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-3 py-2">
-            <option value="ambos">Parcial 1 + Parcial 2</option>
-            <option value="p1">Solo Parcial 1</option>
-            <option value="p2">Solo Parcial 2</option>
-          </select>
+    <!-- INICIO -->
+    <section id="setup" class="glass rounded-2xl p-6 shadow-xl">
+      <div class="max-w-2xl">
+        <p class="text-sm mb-2 font-semibold opacity-80">Opciones</p>
+        <label class="inline-flex items-center gap-2">
+          <input id="shuffle" type="checkbox" class="accent-sky-400">
+          <span>Barajar</span>
+        </label>
+        <div class="hidden">
+          <label for="limit" class="text-sm opacity-80">Límite de preguntas</label>
+          <input id="limit" type="number" min="1" step="1" class="w-24 px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 focus:outline-none" placeholder="todas" />
         </div>
-        <div>
-          <label class="block text-sm mb-1">Número de preguntas</label>
-          <select id="count" class="w-full bg-slate-800/70 border border-slate-700 rounded-xl px-3 py-2">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="all">Todas</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm mb-1">Opciones</label>
-          <div class="flex gap-3 items-center">
-            <label class="inline-flex items-center gap-2"><input id="shuffle" type="checkbox" class="accent-sky-400">
-              <span>Barajar</span></label>
-            <label class="inline-flex items-center gap-2"><input id="instant" type="checkbox" class="accent-sky-400">
-              <span>Corrección inmediata</span></label>
-          </div>
-        </div>
-      </div>
 
-      <div class="mt-5 flex flex-wrap gap-3 items-center">
-        <button id="btnStart" class="px-4 py-2 rounded-2xl bg-sky-600 hover:bg-sky-500 font-semibold">Comenzar</button>
-        <button id="btnShowAll" class="px-4 py-2 rounded-2xl bg-slate-800/70 hover:bg-slate-700">Vista de
-          estudio</button>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <button id="btnStart" class="px-4 py-2 rounded-2xl bg-sky-600 hover:bg-sky-500 font-semibold">Iniciar</button>
+          <button id="btnShowAll" class="px-4 py-2 rounded-2xl bg-slate-800/70 hover:bg-slate-700">Vista de estudio</button>
+        </div>
       </div>
     </section>
 
-    <!-- Vista de estudio -->
+    <!-- VISTA DE ESTUDIO -->
     <section id="study" class="hidden mt-6 glass rounded-2xl p-5 sm:p-6">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold">Vista de estudio (todas las preguntas filtradas)</h2>
+        <h2 class="text-xl font-semibold">Vista de estudio (todas las preguntas)</h2>
         <button class="px-3 py-2 rounded-xl bg-slate-800/70 hover:bg-slate-700" onclick="closeStudy()">Cerrar</button>
       </div>
       <div id="studyList" class="space-y-6"></div>
     </section>
 
-    <!-- Contenedor del quiz -->
+    <!-- QUIZ (Grid: Sidebar fijo + Contenido) -->
     <section id="quiz" class="hidden mt-6">
-      <div class="glass rounded-2xl p-5 sm:p-6 shadow-xl">
-        <div class="flex items-center justify-between mb-4">
-          <div class="text-sm opacity-80" id="progress">Pregunta 1 / N</div>
-          <div class="text-sm opacity-80" id="meta"></div>
-        </div>
+      <div class="grid grid-cols-1 md:[grid-template-columns:280px_1fr] lg:[grid-template-columns:300px_1fr] gap-6 items-start">
+        <!-- SIDEBAR FIJO -->
+        <aside class="w-full">
+          <div class="glass rounded-2xl p-4 sm:p-5 shadow-xl md:sticky md:top-4 max-h-[calc(100vh-2rem)] overflow-y-auto thin-scrollbar">
+            <div class="flex items-center justify-between gap-3 mb-2">
+              <div class="text-sm opacity-80" id="progress">Pregunta 1 / N</div>
+              <div class="text-xs opacity-70" id="meta"></div>
+            </div>
+            <div class="text-xs opacity-75" id="counter">0/N respondidas</div>
 
-        <h2 id="qtext" class="text-lg sm:text-xl font-semibold mb-4"></h2>
-        <div id="multiHint" class="text-xs text-sky-300 mb-3 hidden">Esta pregunta admite varias respuestas. Selecciona
-          todas las que apliquen.</div>
-        <div id="choices" class="grid gap-3"></div>
+            <!-- Grid de navegación con buen alto de fila y más espacio vertical -->
+            <div id="navGrid"
+                 class="mt-3 grid grid-cols-5 gap-x-1.5 gap-y-2 pr-2 auto-rows-[2.6rem]">
+            </div>
+          </div>
+        </aside>
 
-        <div class="mt-5 flex flex-wrap items-center gap-3">
-          <button id="btnPrev" class="px-4 py-2 rounded-2xl bg-slate-800/70 hover:bg-slate-700">Anterior</button>
-          <button id="btnNext"
-            class="px-4 py-2 rounded-2xl bg-sky-600 hover:bg-sky-500 font-semibold">Siguiente</button>
-          <button id="btnCheck"
-            class="px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 font-semibold">Comprobar</button>
-          <div class="ml-auto text-sm opacity-80" id="counter"></div>
-        </div>
-      </div>
+        <!-- CONTENIDO VARIABLE -->
+        <main class="flex-1">
+          <div class="glass rounded-2xl p-5 sm:p-6 shadow-xl">
+            <h2 id="qtext" class="text-xl sm:text-2xl font-semibold leading-snug mb-4"></h2>
+            <div id="multiHint" class="text-xs text-sky-300 mb-3 hidden">
+              Esta pregunta admite varias respuestas. Selecciona todas las que apliquen.
+            </div>
 
-      <div id="navGrid" class="mt-4 grid grid-cols-10 sm:grid-cols-12 gap-2"></div>
+            <!-- Opciones -->
+            <div id="choices" class="grid gap-3"></div>
 
-      <div id="results" class="hidden mt-6 glass rounded-2xl p-5 sm:p-6">
-        <h3 class="text-xl font-bold mb-2">Resultados</h3>
-        <p id="score"></p>
-        <div class="mt-4 flex flex-wrap gap-3">
-          <button onclick="review()" class="px-4 py-2 rounded-2xl bg-slate-800/70 hover:bg-slate-700">Revisar
-            respuestas</button>
-          <button id="btnRestart" class="px-4 py-2 rounded-2xl bg-sky-600 hover:bg-sky-500 font-semibold">Volver a
-            empezar</button>
-        </div>
+            <!-- Controles bajo la pregunta -->
+            <div class="mt-5 pt-4 border-t border-slate-700/60">
+              <div class="flex flex-col-reverse sm:flex-row sm:items-center gap-3">
+                <div class="flex gap-3 sm:mr-auto">
+                  <button id="btnPrevMain" class="px-4 py-2 rounded-xl bg-slate-800/70 hover:bg-slate-700">Anterior</button>
+                  <button id="btnNextMain" class="px-4 py-2 rounded-2xl bg-sky-600 hover:bg-sky-500 font-semibold">Siguiente</button>
+                </div>
+                <button id="btnCheckMain" class="px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 font-semibold">Comprobar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resultados -->
+          <div id="results" class="hidden mt-6 glass rounded-2xl p-5 sm:p-6">
+            <h3 class="text-xl font-bold mb-2">Resultados</h3>
+            <p id="score"></p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button onclick="review()" class="px-4 py-2 rounded-2xl bg-slate-800/70 hover:bg-slate-700">Revisar respuestas</button>
+              <button id="btnRestart" class="px-4 py-2 rounded-2xl bg-sky-600 hover:bg-sky-500 font-semibold">Volver a empezar</button>
+            </div>
+          </div>
+        </main>
       </div>
     </section>
 
-    <footer class="mt-10 text-xs opacity-60 text-center">Hecho con ❤️ para practicar Parciales 1 y 2. Soporta respuestas
-      múltiples y aleatorización.</footer>
+    <footer class="mt-10 text-xs opacity-60 text-center">Repaso</footer>
   </div>
 
-  <script src="preguntas.js"></script>
-  <script>
-    // (Para ahorrar espacio visual aquí no toco RAW; en tu canvas ya está el banco completo)
+  <!-- Banco de preguntas -->
+  <script src="preguntas copy.js"></script>
 
-    // ===============================
-    // Lógica del quiz (sin "Marcar" y con navegación estable)
-    // ===============================
+  <script>
+    // ------------ Estado / refs
     const Setup = {
-      bank: document.getElementById('bank'),
-      count: document.getElementById('count'),
       shuffle: document.getElementById('shuffle'),
-      instant: document.getElementById('instant'),
       start: document.getElementById('btnStart'),
       showAll: document.getElementById('btnShowAll'),
     };
@@ -179,9 +144,10 @@
       choices: document.getElementById('choices'),
       counter: document.getElementById('counter'),
       navGrid: document.getElementById('navGrid'),
-      btnPrev: document.getElementById('btnPrev'),
-      btnNext: document.getElementById('btnNext'),
-      btnCheck: document.getElementById('btnCheck'),
+      // nuevos botones en el MAIN
+      btnPrev: document.getElementById('btnPrevMain'),
+      btnNext: document.getElementById('btnNextMain'),
+      btnCheck: document.getElementById('btnCheckMain'),
       results: document.getElementById('results'),
       score: document.getElementById('score'),
       btnRestart: document.getElementById('btnRestart'),
@@ -193,27 +159,28 @@
       i: 0,
       answers: {},
       checked: {},
-      instant: false,
+      optionOrder: {}, // orden de opciones por pregunta
     };
 
-    function selectBank() {
-      const mode = Setup.bank.value; // ambos | p1 | p2
-      let pool = RAW;
-      if (mode === 'p1') pool = RAW.filter(q => q.parcial === 'p1');
-      if (mode === 'p2') pool = RAW.filter(q => q.parcial === 'p2');
-      return pool;
-    }
+    // ------------ Banco y arranque
+    function selectBank(){ return dedupeByText(RAW); }
 
-    function startQuiz() {
+    function startQuiz(){
       const pool = selectBank();
       let list = [...pool];
       if (Setup.shuffle.checked) shuffle(list);
-      const wanted = Setup.count.value === 'all' ? list.length : Math.min(parseInt(Setup.count.value, 10), list.length);
-      state.items = list.slice(0, wanted);
+
+      state.items = list;
       state.i = 0;
       state.answers = {};
       state.checked = {};
-      state.instant = Setup.instant.checked;
+      state.optionOrder = {};
+
+      for(const q of state.items){
+        const opts = [...q.options];
+        if (Setup.shuffle.checked) shuffle(opts);
+        state.optionOrder[q.id] = opts;
+      }
 
       Quiz.setup.classList.add('hidden');
       Quiz.wrap.classList.remove('hidden');
@@ -225,7 +192,8 @@
       updateNextButton();
     }
 
-    function renderQuestion() {
+    // ------------ Render pregunta
+    function renderQuestion(){
       const q = state.items[state.i];
       const multi = q.correct.length > 1 || (q.subtitle || '').toLowerCase().includes('todas');
       Quiz.qtext.textContent = q.text + (q.subtitle ? ' ' + q.subtitle : '');
@@ -236,17 +204,23 @@
 
       const selected = new Set(state.answers[q.id] || []);
       Quiz.choices.innerHTML = '';
-      const opts = [...q.options];
-      if (Setup.shuffle.checked) shuffle(opts);
 
-      opts.forEach(([letter, text]) => {
+      const opts = state.optionOrder[q.id] ?? q.options;
+      opts.forEach(([letter, text])=>{
         const isOn = selected.has(letter);
         const btn = document.createElement('button');
-        btn.className = `choice w-full text-left px-3 py-3 rounded-xl border ${isOn ? 'border-sky-500 bg-sky-500/10' : 'border-slate-700 bg-slate-800/70'} hover:border-sky-500 transition`;
-        btn.innerHTML = `<div class=\"flex items-start gap-3\"><div class=\"mt-1 shrink-0 w-6 h-6 rounded-lg border ${isOn ? 'border-sky-400 bg-sky-500/30' : 'border-slate-600 bg-slate-700/50'}\"></div><div><div class=\"font-semibold\">${letter})</div><div class=\"opacity-90\">${text}</div></div></div>`;
-        btn.addEventListener('click', () => {
+        btn.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+        btn.className = `choice w-full text-left px-4 py-3 rounded-xl border ${isOn ? 'border-sky-500 bg-sky-500/10' : 'border-slate-700 bg-slate-800/70'} hover:border-sky-500 transition`;
+        btn.innerHTML = `
+          <div class="flex items-start gap-3">
+            <div class="mt-1 shrink-0 w-6 h-6 rounded-lg border ${isOn ? 'border-sky-400 bg-sky-500/30' : 'border-slate-600 bg-slate-700/50'}"></div>
+            <div>
+              <div class="font-semibold">${letter})</div>
+              <div class="opacity-90">${text}</div>
+            </div>
+          </div>`;
+        btn.addEventListener('click', ()=>{
           toggleSelect(q.id, letter, multi);
-          if (state.instant) checkCurrent(false);
           renderQuestion();
           highlightSelection(q);
         });
@@ -257,32 +231,27 @@
       updateNextButton();
     }
 
-    function toggleSelect(qid, letter, multi) {
+    function toggleSelect(qid, letter, multi){
       const sel = new Set(state.answers[qid] || []);
-      if (!multi) sel.clear();
+      if(!multi) sel.clear();
       sel.has(letter) ? sel.delete(letter) : sel.add(letter);
       state.answers[qid] = [...sel];
     }
 
-    function highlightSelection(q) {
-      if (!state.checked[q.id]) return;
+    // ------------ Corrección y grid
+    function highlightSelection(q){
+      if(!state.checked[q.id]) return;
       const correct = new Set(q.correct);
-      [...Quiz.choices.children].forEach((el) => {
-        const letter = getLetterFromRendered(el);
+      [...Quiz.choices.children].forEach((el)=>{
+        const letter = el.querySelector('.font-semibold')?.textContent?.replace(')','');
         const userSel = new Set(state.answers[q.id] || []);
         el.classList.remove('shake');
-        if (correct.has(letter)) el.classList.add('border-emerald-500', 'bg-emerald-500/10');
-        if (userSel.has(letter) && !correct.has(letter)) {
-          el.classList.add('border-rose-500', 'bg-rose-500/10', 'shake');
-        }
+        if (correct.has(letter)) el.classList.add('border-emerald-500','bg-emerald-500/10');
+        if (userSel.has(letter) && !correct.has(letter)) el.classList.add('border-rose-500','bg-rose-500/10','shake');
       });
     }
 
-    function getLetterFromRendered(el) {
-      return el.querySelector('.font-semibold')?.textContent?.replace(')', '');
-    }
-
-    function checkCurrent(showToast = true) {
+    function checkCurrent(showToast=true){
       const q = state.items[state.i];
       const user = new Set(state.answers[q.id] || []);
       const need = new Set(q.correct);
@@ -294,46 +263,106 @@
       return ok;
     }
 
-    function renderGrid() {
-      Quiz.navGrid.innerHTML = '';
+    // ------------ Grid de navegación SIN solapes
+    function renderGrid () {
+      const grid = Quiz.navGrid;
+
+      // Solo espacios entre BOTONES (no entre filas):
+      grid.className = [
+        'mt-3',
+        'grid',
+        'grid-cols-5',
+        'gap-x-1.5',
+        'gap-y-3',        // ⟵ un poco de aire vertical normal (sin líneas)
+        'auto-rows-[44px]',
+        'w-full', 'max-w-full'
+      ].join(' ');
+
+      grid.innerHTML = '';
+
       state.items.forEach((q, idx) => {
-        const user = new Set(state.answers[q.id] || []);
-        const need = new Set(q.correct);
+        const answered = (state.answers[q.id] || []).length > 0;
+        const need    = new Set(q.correct || []);
+        const user    = new Set(state.answers[q.id] || []);
         const checked = !!state.checked[q.id];
-        const ok = checked && user.size === need.size && [...user].every(x => need.has(x));
+        const ok      = checked && user.size === need.size && [...user].every(x => need.has(x));
+        const wrong   = checked && !ok && answered;
+
+        // prioridad visual
+        let ringClass = '';
+        if (ok)              ringClass = 'ring-inset ring-1 ring-emerald-500';
+        else if (wrong)      ringClass = 'ring-inset ring-1 ring-rose-500';
+        else if (idx === state.i) ringClass = 'ring-inset ring-1 ring-sky-400';
+
+        const baseBorder = ringClass ? 'border-transparent' : 'border-slate-700/80';
+
         const b = document.createElement('button');
-        b.className = `text-xs rounded-lg px-2 py-1 border ${idx === state.i ? 'border-sky-400 bg-sky-500/20' : 'border-slate-700 bg-slate-800/60'} ${ok ? 'outline outline-1 outline-emerald-500' : ''}`;
-        b.textContent = idx + 1;
-        b.addEventListener('click', () => { state.i = idx; renderQuestion(); highlightSelection(state.items[state.i]); });
-        Quiz.navGrid.appendChild(b);
+        b.type = 'button';
+        b.className = [
+          'relative box-border w-9 h-[44px] shrink-0 rounded-[6px] p-0.5',
+          'flex flex-col items-center justify-between',
+          'text-[10px] leading-none font-medium select-none',
+          `border ${baseBorder} bg-slate-900/40 hover:bg-slate-900/60 transition`,
+          'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-sky-400',
+          'overflow-hidden',
+          ringClass
+        ].join(' ');
+
+        const statusTone = ok ? 'emerald' : wrong ? 'rose' : answered ? 'sky' : 'slate';
+        const textColor  = ok ? 'text-emerald-400'
+                        : wrong ? 'text-rose-400'
+                        : answered ? 'text-sky-400'
+                        : 'text-slate-500';
+        const statusIcon = ok ? '✓' : wrong ? '!' : answered ? '•' : '–';
+
+        b.innerHTML = `
+          <span class="mt-1">${idx + 1}</span>
+          <span class="text-[9px] ${textColor}">${statusIcon}</span>
+          <span class="w-full h-[6px] rounded-[3px] bg-${statusTone}-500/25"></span>
+        `;
+
+        b.setAttribute('aria-label', `Ir a la pregunta ${idx + 1}`);
+        if (idx === state.i) b.setAttribute('aria-current', 'true');
+
+        b.addEventListener('click', () => {
+          state.i = idx;
+          renderQuestion();
+          highlightSelection(state.items[state.i]);
+          renderGrid();
+        });
+
+        grid.appendChild(b);
       });
     }
 
-    function next() {
-      if (state.i < state.items.length - 1) { state.i++; renderQuestion(); highlightSelection(state.items[state.i]); }
-    }
-    function prev() {
-      if (state.i > 0) { state.i--; renderQuestion(); highlightSelection(state.items[state.i]); }
-    }
 
-    function updateCounter() {
+
+
+
+
+    // ------------ Navegación
+    function next(){ if (state.i < state.items.length - 1){ state.i++; renderQuestion(); highlightSelection(state.items[state.i]); } }
+    function prev(){ if (state.i > 0){ state.i--; renderQuestion(); highlightSelection(state.items[state.i]); } }
+
+    function updateCounter(){
       const answered = Object.keys(state.answers).length;
       Quiz.counter.textContent = `${answered}/${state.items.length} respondidas`;
     }
 
-    function finish() {
-      state.items.forEach(q => { if (!state.checked[q.id]) state.checked[q.id] = true; });
+    function finish(){
+      state.items.forEach(q => { if(!state.checked[q.id]) state.checked[q.id] = true; });
       const totals = score();
       Quiz.results.classList.remove('hidden');
       Quiz.score.textContent = `Puntaje: ${totals.ok} correctas de ${state.items.length} ( ${(totals.ok / state.items.length * 100).toFixed(1)}% )`;
       renderGrid();
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    function review() { toast('Modo revisión activado: usa la cuadrícula para navegar'); }
+    function review(){ toast('Modo revisión activado: usa la cuadrícula para navegar'); }
 
-    function score() {
+    function score(){
       let ok = 0;
-      state.items.forEach(q => {
+      state.items.forEach(q=>{
         const u = new Set(state.answers[q.id] || []);
         const need = new Set(q.correct);
         const yes = u.size === need.size && [...u].every(x => need.has(x));
@@ -342,25 +371,15 @@
       return { ok };
     }
 
-    function toast(msg) {
-      const t = document.createElement('div');
-      t.textContent = msg;
-      t.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-800/90 border border-slate-700 px-4 py-2 rounded-xl text-sm shadow-xl';
-      document.body.appendChild(t);
-      setTimeout(() => { t.remove(); }, 1500);
-    }
-
-    function closeStudy() { Quiz.study.classList.add('hidden'); Quiz.studyList.innerHTML = ''; }
-
-    function openStudy() {
-      const pool = selectBank();
-      const list = [...pool];
+    // ------------ Estudio
+    function closeStudy(){ Quiz.study.classList.add('hidden'); Quiz.studyList.innerHTML=''; }
+    function openStudy(){
+      const list = [...selectBank()];
       if (Setup.shuffle.checked) shuffle(list);
-      const container = Quiz.studyList;
-      container.innerHTML = '';
-      list.forEach(q => {
-        const block = document.createElement('div');
+      const c = Quiz.studyList; c.innerHTML = '';
+      list.forEach(q=>{
         const multi = q.correct.length > 1 || (q.subtitle || '').toLowerCase().includes('todas');
+        const block = document.createElement('div');
         block.innerHTML = `
           <div class="rounded-xl border border-slate-700 bg-slate-800/60">
             <div class="p-4">
@@ -372,56 +391,66 @@
               <div class="mt-3 text-sm"><span class="opacity-70">Respuesta correcta:</span> <span class="font-mono">${q.correct.join(', ')}</span></div>
             </div>
           </div>`;
-        container.appendChild(block);
+        c.appendChild(block);
       });
       Quiz.study.classList.remove('hidden');
     }
 
-    // Utils
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+    // ------------ Utils
+    function dedupeByText(arr){
+      const seen = new Set(), out = [];
+      for(const q of arr){
+        const key = (q.text||'').toLowerCase().replace(/\s+/g,' ').trim();
+        if (seen.has(key)) continue; seen.add(key); out.push(q);
       }
-      return arr;
+      return out;
+    }
+    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+    function toast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-800/90 border border-slate-700 px-4 py-2 rounded-xl text-sm shadow-xl';
+      document.body.appendChild(t);
+      setTimeout(()=>{ t.remove(); }, 1500);
     }
 
-    // Event listeners (sin doble binding del botón "Siguiente")
+    // ------------ Eventos
     Setup.start.addEventListener('click', startQuiz);
     Setup.showAll.addEventListener('click', openStudy);
+
     Quiz.btnPrev.addEventListener('click', prev);
-    Quiz.btnCheck.addEventListener('click', () => { checkCurrent(true); });
-    Quiz.btnRestart.addEventListener('click', () => {
+    Quiz.btnCheck.addEventListener('click', ()=>{ checkCurrent(true); });
+    Quiz.btnReset.addEventListener('click', ()=>{
       Quiz.wrap.classList.add('hidden');
       Quiz.setup.classList.remove('hidden');
       Quiz.results.classList.add('hidden');
       Quiz.btnReset.classList.add('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    Quiz.btnReset.addEventListener('click', () => {
+    Quiz.btnRestart.addEventListener('click', ()=>{
       Quiz.wrap.classList.add('hidden');
       Quiz.setup.classList.remove('hidden');
       Quiz.results.classList.add('hidden');
       Quiz.btnReset.classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Atajos de teclado
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', (e)=>{
       if (Quiz.wrap.classList.contains('hidden')) return;
       if (e.key === 'ArrowRight') next();
       if (e.key === 'ArrowLeft') prev();
       if (e.key === 'Enter') checkCurrent();
     });
 
-    function updateNextButton() {
+    function updateNextButton(){
       const last = state.i === state.items.length - 1;
       Quiz.btnNext.textContent = last ? 'Finalizar' : 'Siguiente';
-      Quiz.btnNext.onclick = last ? finish : () => {
-        if (!state.instant) { const ok = checkCurrent(false); toast(ok ? '✔️ Correcto' : '❗ Aún no es correcto'); }
+      Quiz.btnNext.onclick = last ? finish : ()=>{
+        const ok = checkCurrent(false);
+        toast(ok ? 'Correcto' : 'Aún no es correcto');
         next();
       };
     }
   </script>
 </body>
-
 </html>
