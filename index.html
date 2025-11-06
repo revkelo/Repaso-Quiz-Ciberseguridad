@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz — Seguridad de la Información (Parcial 1 y 2)</title>
   <script>
-    // Desactiva preflight si decides añadir Tailwind más tarde desde CDN
     window.tailwind = { config: { corePlugins: { preflight: false } } };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -85,7 +84,6 @@
           <button id="btnPrev" class="px-4 py-2 rounded-2xl bg-slate-800/70 hover:bg-slate-700">Anterior</button>
           <button id="btnNext" class="px-4 py-2 rounded-2xl bg-sky-600 hover:bg-sky-500 font-semibold">Siguiente</button>
           <button id="btnCheck" class="px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 font-semibold">Comprobar</button>
-          <button id="btnFlag" class="px-3 py-2 rounded-xl bg-yellow-600/30 hover:bg-yellow-600/40">Marcar</button>
           <div class="ml-auto text-sm opacity-80" id="counter"></div>
         </div>
       </div>
@@ -371,9 +369,12 @@
         ['A','Espacios en blanco en texto'],['B','LSB'],['C','ASCII'],['D','Cifrado simétrico + estego']
       ], correct: ['B'] },
     ];
+  </script>
+  <script>
+    // (Para ahorrar espacio visual aquí no toco RAW; en tu canvas ya está el banco completo)
 
     // ===============================
-    // Lógica del quiz
+    // Lógica del quiz (sin "Marcar" y con navegación estable)
     // ===============================
     const Setup = {
       bank: document.getElementById('bank'),
@@ -399,7 +400,6 @@
       btnPrev: document.getElementById('btnPrev'),
       btnNext: document.getElementById('btnNext'),
       btnCheck: document.getElementById('btnCheck'),
-      btnFlag: document.getElementById('btnFlag'),
       results: document.getElementById('results'),
       score: document.getElementById('score'),
       btnRestart: document.getElementById('btnRestart'),
@@ -407,11 +407,10 @@
     };
 
     let state = {
-      items: [],     // preguntas en juego
-      i: 0,          // índice actual
-      answers: {},   // id -> Set de letras seleccionadas
-      checked: {},   // id -> boolean (comprobado)
-      flags: new Set(),
+      items: [],
+      i: 0,
+      answers: {},
+      checked: {},
       instant: false,
     };
 
@@ -432,16 +431,16 @@
       state.i = 0;
       state.answers = {};
       state.checked = {};
-      state.flags = new Set();
       state.instant = Setup.instant.checked;
 
       Quiz.setup.classList.add('hidden');
       Quiz.wrap.classList.remove('hidden');
       Quiz.results.classList.add('hidden');
-      document.getElementById('btnReset').classList.remove('hidden');
+      Quiz.btnReset.classList.remove('hidden');
 
       renderQuestion();
       renderGrid();
+      updateNextButton();
     }
 
     function renderQuestion() {
@@ -453,7 +452,7 @@
       Quiz.progress.textContent = `Pregunta ${state.i+1} / ${state.items.length}`;
       Quiz.meta.textContent = `${q.id} • ${q.parcial.toUpperCase()}`;
 
-      const selected = state.answers[q.id] ? new Set(state.answers[q.id]) : new Set();
+      const selected = new Set(state.answers[q.id] || []);
       Quiz.choices.innerHTML = '';
       const opts = [...q.options];
       if (Setup.shuffle.checked) shuffle(opts);
@@ -462,7 +461,7 @@
         const isOn = selected.has(letter);
         const btn = document.createElement('button');
         btn.className = `choice w-full text-left px-3 py-3 rounded-xl border ${isOn? 'border-sky-500 bg-sky-500/10' : 'border-slate-700 bg-slate-800/70'} hover:border-sky-500 transition`;
-        btn.innerHTML = `<div class="flex items-start gap-3"><div class="mt-1 shrink-0 w-6 h-6 rounded-lg border ${isOn? 'border-sky-400 bg-sky-500/30' : 'border-slate-600 bg-slate-700/50'}"></div><div><div class="font-semibold">${letter})</div><div class="opacity-90">${text}</div></div></div>`;
+        btn.innerHTML = `<div class=\"flex items-start gap-3\"><div class=\"mt-1 shrink-0 w-6 h-6 rounded-lg border ${isOn? 'border-sky-400 bg-sky-500/30' : 'border-slate-600 bg-slate-700/50'}\"></div><div><div class=\"font-semibold\">${letter})</div><div class=\"opacity-90\">${text}</div></div></div>`;
         btn.addEventListener('click', () => {
           toggleSelect(q.id, letter, multi);
           if (state.instant) checkCurrent(false);
@@ -473,19 +472,20 @@
       });
 
       updateCounter();
+      updateNextButton();
     }
 
     function toggleSelect(qid, letter, multi) {
-      const sel = state.answers[qid] ? new Set(state.answers[qid]) : new Set();
+      const sel = new Set(state.answers[qid] || []);
       if (!multi) sel.clear();
-      if (sel.has(letter)) sel.delete(letter); else sel.add(letter);
+      sel.has(letter) ? sel.delete(letter) : sel.add(letter);
       state.answers[qid] = [...sel];
     }
 
     function highlightSelection(q){
       if (!state.checked[q.id]) return;
       const correct = new Set(q.correct);
-      [...Quiz.choices.children].forEach((el, idx) => {
+      [...Quiz.choices.children].forEach((el) => {
         const letter = getLetterFromRendered(el);
         const userSel = new Set(state.answers[q.id]||[]);
         el.classList.remove('shake');
@@ -497,7 +497,6 @@
     }
 
     function getLetterFromRendered(el){
-      // La letra está en el primer div con font-semibold dentro
       return el.querySelector('.font-semibold')?.textContent?.replace(')','');
     }
 
@@ -520,11 +519,9 @@
         const need = new Set(q.correct);
         const checked = !!state.checked[q.id];
         const ok = checked && user.size === need.size && [...user].every(x=>need.has(x));
-        const flagged = state.flags.has(q.id);
         const b = document.createElement('button');
         b.className = `text-xs rounded-lg px-2 py-1 border ${idx===state.i? 'border-sky-400 bg-sky-500/20' : 'border-slate-700 bg-slate-800/60'} ${ok? 'outline outline-1 outline-emerald-500' : ''}`;
         b.textContent = idx+1;
-        if (flagged) b.title = 'Marcada';
         b.addEventListener('click', ()=>{ state.i = idx; renderQuestion(); highlightSelection(state.items[state.i]); });
         Quiz.navGrid.appendChild(b);
       });
@@ -539,12 +536,10 @@
 
     function updateCounter(){
       const answered = Object.keys(state.answers).length;
-      const marked = state.flags.size;
-      Quiz.counter.textContent = `${answered}/${state.items.length} respondidas • ${marked} marcadas`;
+      Quiz.counter.textContent = `${answered}/${state.items.length} respondidas`;
     }
 
     function finish(){
-      // Marca todas como comprobadas
       state.items.forEach(q=>{ if(!state.checked[q.id]) state.checked[q.id]=true; });
       const totals = score();
       Quiz.results.classList.remove('hidden');
@@ -552,10 +547,7 @@
       renderGrid();
     }
 
-    function review(){
-      // muestra una revisión con colores marcados (ya la hace highlightSelection al navegar)
-      toast('Modo revisión activado: usa la cuadrícula para navegar');
-    }
+    function review(){ toast('Modo revisión activado: usa la cuadrícula para navegar'); }
 
     function score(){
       let ok = 0;
@@ -576,13 +568,9 @@
       setTimeout(()=>{ t.remove(); }, 1500);
     }
 
-    function closeStudy(){
-      Quiz.study.classList.add('hidden');
-      Quiz.studyList.innerHTML = '';
-    }
+    function closeStudy(){ Quiz.study.classList.add('hidden'); Quiz.studyList.innerHTML = ''; }
 
     function openStudy(){
-      // Genera la lista con el filtro actual
       const pool = selectBank();
       const list = [...pool];
       if (Setup.shuffle.checked) shuffle(list);
@@ -616,37 +604,23 @@
       return arr;
     }
 
-    // Event listeners
+    // Event listeners (sin doble binding del botón "Siguiente")
     Setup.start.addEventListener('click', startQuiz);
     Setup.showAll.addEventListener('click', openStudy);
     Quiz.btnPrev.addEventListener('click', prev);
-    Quiz.btnNext.addEventListener('click', () => {
-      if (!state.instant) {
-        // Si no corregimos al vuelo, intentamos comprobar antes de pasar
-        const ok = checkCurrent(false);
-        // feedback suave
-        toast(ok? '✔️ Correcto' : '❗ Aún no es correcto');
-      }
-      next();
-    });
     Quiz.btnCheck.addEventListener('click', ()=>{ checkCurrent(true); });
-    Quiz.btnFlag.addEventListener('click', ()=>{
-      const q = state.items[state.i];
-      if (state.flags.has(q.id)) state.flags.delete(q.id); else state.flags.add(q.id);
-      updateCounter(); renderGrid();
-    });
     Quiz.btnRestart.addEventListener('click', ()=>{
       Quiz.wrap.classList.add('hidden');
       Quiz.setup.classList.remove('hidden');
       Quiz.results.classList.add('hidden');
-      document.getElementById('btnReset').classList.add('hidden');
+      Quiz.btnReset.classList.add('hidden');
       window.scrollTo({top:0,behavior:'smooth'});
     });
-    document.getElementById('btnReset').addEventListener('click', ()=>{
+    Quiz.btnReset.addEventListener('click', ()=>{
       Quiz.wrap.classList.add('hidden');
       Quiz.setup.classList.remove('hidden');
       Quiz.results.classList.add('hidden');
-      document.getElementById('btnReset').classList.add('hidden');
+      Quiz.btnReset.classList.add('hidden');
     });
 
     // Atajos de teclado
@@ -657,16 +631,14 @@
       if (e.key==='Enter') checkCurrent();
     });
 
-    // Botón de finalizar aparece cuando llegas al final (reutilizamos btnNext)
-    const obs = new MutationObserver(()=>{
+    function updateNextButton(){
       const last = state.i === state.items.length-1;
       Quiz.btnNext.textContent = last ? 'Finalizar' : 'Siguiente';
       Quiz.btnNext.onclick = last ? finish : ()=>{
         if (!state.instant) { const ok = checkCurrent(false); toast(ok? '✔️ Correcto' : '❗ Aún no es correcto'); }
         next();
       };
-    });
-    obs.observe(document.getElementById('progress'), { childList: true });
+    }
   </script>
 </body>
 </html>
