@@ -652,5 +652,7 @@ RAW.push(
     }
     return out;
   }
+  // Exponer la función al ámbito global para el index.html
+  if (typeof window !== 'undefined') window.dedupeByText = dedupeByText;
   RAW = dedupeByText(RAW);
 })();
