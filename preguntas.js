@@ -1,282 +1,307 @@
+let RAW = [
+  // -------- PARCIAL 1 (Conceptos base) --------
+  { id: 'P1-01', parcial: 'p1', text: '¿Cuál fue el objetivo central de la sesión de Giovanna Saugal?', options: [
+    ['A','Explicar cómo construir el artefacto tecnológico desde cero'],
+    ['B','Explicar una matriz/estrategia para operacionalizar variables a medir en las fases de validación'],
+    ['C','Enseñar a programar pruebas unitarias con frameworks específicos'],
+    ['D','Definir únicamente qué es una hipótesis'],
+  ], correct: ['B'] },
 
-    let RAW = [
-      // -------- PARCIAL 1 --------
-      { id: 'P1-01', parcial: 'p1', text: '¿Cómo nos podemos defender contra los ataques de fuerza bruta a las contraseñas?', subtitle: '(Escoge todas las correctas)', options: [
-        ['A','Incorporar sales en el hash de contraseñas'],
-        ['B','Imponer el uso de contraseñas seguras'],
-        ['C','Almacenar contraseñas en una tabla de arco iris'],
-        ['D','Pasar las contraseñas por la función de hash varias veces (key stretching)'],
-      ], correct: ['A','B','D'] },
-      { id: 'P1-02', parcial: 'p1', text: '¿Cuántas tácticas tiene la matriz MITRE ATT&CK?', options: [
-        ['A','25'],['B','+250'],['C','5'],['D','14']
-      ], correct: ['D'] },
-      { id: 'P1-03', parcial: 'p1', text: 'La táctica del RECONOCIMIENTO consiste en:', options: [
-        ['A','Emplear tácticas para evitar ser detectado por los controles de seguridad'],
-        ['B','Adquirir nombres de cuentas, contraseñas e info de autenticación alternativa'],
-        ['C','Navegar dentro del entorno de destino para acceder a recursos adicionales'],
-        ['D','Garantizar el acceso continuo al sistema comprometido y mantener un punto de apoyo'],
-        ['E','Obtener el acceso inicial a una red de destino'],
-        ['F','Extracción de datos confidenciales del entorno de destino para uso no autorizado'],
-        ['G','Recopilación de información para planificar y diseñar estrategias para operaciones futuras'],
-      ], correct: ['G'] },
-      { id: 'P1-04', parcial: 'p1', text: '¿Qué ocurre si un virus informático infecta el e-commerce y modifica los precios en su sitio web?', options: [
-        ['A','Se compromete la confidencialidad de los datos'],
-        ['B','Se interrumpe la disponibilidad de la información'],
-        ['C','Se viola la integridad de los registros'],
-        ['D','(Opción de autenticidad/no aplica)'],
-      ], correct: ['C'] },
-      { id: 'P1-05', parcial: 'p1', text: '¿Cuál de las siguientes afirmaciones describe mejor la utilización de la criptografía asimétrica?', options: [
-        ['A','Utiliza la misma clave para cifrar y descifrar (simétrica)'],
-        ['B','Se usa clave privada para cifrar y pública para descifrar (enunciado impreciso)'],
-        ['C','Cada usuario tiene un par de claves (pública y privada) para cifrar/descifrar de forma segura'],
-        ['D','Utiliza una clave compartida entre emisor y receptor (simétrica)'],
-      ], correct: ['C'] },
-      { id: 'P1-06', parcial: 'p1', text: 'La ISO 27001 es un estándar certificable', options: [
-        ['A','Verdadero'],['B','Falso']
-      ], correct: ['A'] },
-      { id: 'P1-07', parcial: 'p1', text: 'Cuanto más pequeña sea la clave de encriptación, más seguros estarán los datos cifrados', options: [
-        ['A','Verdadero'],['B','Falso']
-      ], correct: ['B'] },
-      { id: 'P1-08', parcial: 'p1', text: '¿Cuáles son los principales servicios ofrecidos por las infraestructuras de clave pública (PKI)?', subtitle:'(Elige todas las correctas)', options: [
-        ['A','Generación de tokens de autenticación'],
-        ['B','Emisión y gestión de certificados digitales'],
-        ['C','Gestión de claves públicas y privadas'],
-        ['D','Validación de la identidad de usuarios y dispositivos'],
-        ['E','Implementación de políticas de seguridad de red'],
-      ], correct: ['B','C','D'] },
-      { id: 'P1-09', parcial: 'p1', text: '¿Qué es una colisión de hash?', options: [
-        ['A','Dos archivos idénticos generan diferentes resúmenes de hash'],
-        ['B','Dos algoritmos de hash diferentes producen el mismo hash'],
-        ['C','Dos archivos diferentes generan el mismo resumen de hash'],
-        ['D','Un resumen de hash se invierte para recuperar el original'],
-      ], correct: ['C'] },
-      { id: 'P1-10', parcial: 'p1', text: '¿Cuál describe mejor el cifrado Vernam?', options: [
-        ['A','Clave secreta compartida para cifrar/descifrar'],
-        ['B','Clave pública para cifrar y privada para descifrar'],
-        ['C','La misma clave para cifrar y descifrar (simétrica)'],
-        ['D','Cifrado de flujo que combina el texto con una clave de igual longitud'],
-      ], correct: ['D'] },
-      { id: 'P1-11', parcial: 'p1', text: 'En un certificado SSL, la clave pública del servidor está firmada por una CA, garantizando la autenticidad del servidor.', options: [["A","Verdadero"],["B","Falso"]], correct: ['A'] },
-      { id: 'P1-12', parcial: 'p1', text: 'Acceso indebido a BD sensible por parte de empleado implica…', options: [
-        ['A','Se compromete la integridad de la información'],
-        ['B','Se viola la confidencialidad de los datos'],
-        ['C','Se interrumpe la disponibilidad de la base de datos'],
-        ['D','Se compromete la autenticidad de los registros'],
-      ], correct: ['B'] },
-      { id: 'P1-13', parcial: 'p1', text: 'Medidas para proteger el login de una plataforma web', subtitle:'(Seleccione todas)', options: [
-        ['A','Hash seguro de contraseñas en BD'],
-        ['B','MFA'],
-        ['C','Contraseñas en texto plano'],
-        ['D','Permitir contraseñas simples'],
-        ['E','Certificado SSL durante el login'],
-      ], correct: ['A','B','E'] },
-      { id: 'P1-14', parcial: 'p1', text: 'Últimas dos versiones de ISO 27001', options: [
-        ['A','Solo existe la 2022'],['B','2023 y 2013'],['C','2022 y 2014'],['D','2022 y 2025'],['E','2022 y 2013'],['F','2012 y 2013'],['G','2022 y 2012'],
-      ], correct: ['E'] },
-      { id: 'P1-15', parcial: 'p1', text: '¿Cuál NO pertenece a un buen algoritmo de hash?', options: [
-        ['A','El mismo mensaje siempre produce el mismo hash'],
-        ['B','Colisión de hash'],
-        ['C','Determinismo'],
-        ['D','No es reversible'],
-      ], correct: ['B'] },
-      { id: 'P1-16', parcial: 'p1', text: 'Primera subfase en auditoría de seguridad', options: [
-        ['A','Post Explotación'],['B','Explotación'],['C','Fingerprinting'],['D','Footprinting']
-      ], correct: ['D'] },
-      { id: 'P1-17', parcial: 'p1', text: 'Caso apropiado para aplicar hash', options: [
-        ['A','Garantizar disponibilidad'],['B','Almacenar contraseñas en una base de datos'],['C','Cifrar comunicación'],['D','Garantizar confidencialidad']
-      ], correct: ['B'] },
-      { id: 'P1-18', parcial: 'p1', text: 'Herramientas para fuerza bruta/diccionario vistas en clase', options: [
-        ['A','John y CCrypt'],['B','John y HashRat'],['C','John y HashCat'],['D','HashRat y HashCat']
-      ], correct: ['C'] },
-      { id: 'P1-19', parcial: 'p1', text: 'Características del cifrado Polibio', subtitle:'(marque todas las válidas)', options: [
-        ['A','Utiliza una tabla de sustitución para cifrar mensajes'],
-        ['B','Es un cifrado de sustitución monoalfabético'],
-        ['C','Convierte cada letra en un par de números'],
-        ['D','Requiere clave secreta'],
-        ['E','Es de transposición'],
-      ], correct: ['A','B','C'] },
-      { id: 'P1-20', parcial: 'p1', text: 'Componentes clave de una PKI', subtitle:'(marque todas las válidas)', options: [
-        ['A','Autoridad de Certificación (CA)'],['B','Certificado de Antecedentes Penales (CAP)'],['C','Centro de Datos'],['D','Almacén de Claves (Key Store / HSM)'],['E','Servidor SMTP']
-      ], correct: ['A','D'] },
-      { id: 'P1-21', parcial: 'p1', text: 'En auditoría de seguridad, pensar con perspectiva ________.', options: [
-        ['A','Atacante'],['B','Ofensiva'],['C','Hacker'],['D','Defensiva']
-      ], correct: ['A'] },
-      { id: 'P1-22', parcial: 'p1', text: 'Mejor descripción de seguridad de la información', options: [
-        ['A','Responsabilidad exclusiva de TI'],
-        ['B','Solo prevenir ataques externos'],
-        ['C','Proceso integral que protege confidencialidad, integridad y disponibilidad'],
-        ['D','Solo protección física'],
-      ], correct: ['C'] },
-      { id: 'P1-23', parcial: 'p1', text: 'Tipo de validación SSL con chequeo exhaustivo y barra verde (histórica)', options: [
-        ['A','Validación extendida'],['B','Validación organizativa'],['C','Validación de dominio'],['D','Nivel básico']
-      ], correct: ['A'] },
-      { id: 'P1-24', parcial: 'p1', text: 'Movimiento lateral consiste en…', options: [
-        ['A','Adquirir credenciales'],['B','Entender el entorno'],['C','Navegar para acceder a recursos adicionales'],['D','Planear estrategias futuras'],['E','Manipular/destruir objetivos'],['F','Preparar recursos'],['G','Evadir defensas']
-      ], correct: ['C'] },
-      { id: 'P1-25', parcial: 'p1', text: 'Exfiltración consiste en…', options: [
-        ['A','Entender el entorno'],['B','Extracción de datos confidenciales para uso no autorizado'],['C','Recopilar datos para objetivos del atacante'],['D','Movimiento lateral'],['E','C2 remoto'],
-      ], correct: ['B'] },
-      { id: 'P1-26', parcial: 'p1', text: 'ISO 27001:2022 anexo A separa controles en ___ grupos.', options: [
-        ['A','5'],['B','4'],['C','3'],['D','6']
-      ], correct: ['B'] },
-      { id: 'P1-27', parcial: 'p1', text: 'En un certificado SSL, la clave pública del servidor está firmada por una CA…', options: [["A","Verdadero"],["B","Falso"]], correct: ['A'] },
-      { id: 'P1-28', parcial: 'p1', text: 'Firma electrónica con máximas garantías legales', options: [
-        ['A','Firma electrónica simple'],['B','Firma digital'],['C','Firma manuscrita'],['D','Firma electrónica avanzada']
-      ], correct: ['D'] },
-      { id: 'P1-29', parcial: 'p1', text: 'Algoritmo eficiente para grandes volúmenes con una sola clave', options: [
-        ['A','ECDSA'],['B','RSA'],['C','Diffie-Hellman'],['D','AES']
-      ], correct: ['D'] },
-      { id: 'P1-30', parcial: 'p1', text: 'En un certificado SSL, la clave pública del servidor está firmada…', options: [["A","Verdadero"],["B","Falso"]], correct: ['A'] },
+  { id: 'P1-02', parcial: 'p1', text: 'Las fases de validación trabajadas en el curso (según el ciclo de transferencia de tecnología) son:', subtitle: '(Seleccione todas las correctas)', options: [
+    ['A','Validación en la academia'],
+    ['B','Validación estática'],
+    ['C','Validación dinámica'],
+    ['D','Validación financiera'],
+  ], correct: ['A','B','C'] },
 
-      // -------- PARCIAL 2 --------
-      { id: 'P2-01', parcial: 'p2', text: 'La táctica de la EXFILTRACIÓN consiste en…', options: [
-        ['A','Movimiento lateral'],['B','Evadir defensas'],['C','Recopilar datos relevantes'],['D','Entender el entorno'],['E','Extracción de datos confidenciales'],['G','C2 remoto']
-      ], correct: ['E'] },
-      { id: 'P2-02', parcial: 'p2', text: 'La táctica del RECONOCIMIENTO consiste en…', options: [
-        ['A','Recopilar información para planear futuras operaciones'],['B','Mantener punto de apoyo'],['C','Acceso inicial'],['D','Adquirir credenciales'],['E','Movimiento lateral'],['F','Exfiltración'],['G','Evadir defensas']
-      ], correct: ['A'] },
-      { id: 'P2-03', parcial: 'p2', text: '¿Cuál describe mejor el cifrado Vernam?', options: [
-        ['A','Clave pública/privada'],['B','Flujo + clave de igual longitud'],['C','Misma clave para cifrar/descifrar'],['D','Clave secreta compartida']
-      ], correct: ['B'] },
-      { id: 'P2-04', parcial: 'p2', text: 'Primera subfase de investigación en auditoría', options: [
-        ['A','Footprinting'],['B','Post Explotación'],['C','Fingerprinting'],['D','Explotación']
-      ], correct: ['A'] },
-      { id: 'P2-05', parcial: 'p2', text: 'Los “pawns” son conscientes de que ayudan al atacante.', options: [["A","Verdadero"],["B","Falso"]], correct: ['B'] },
-      { id: 'P2-06', parcial: 'p2', text: 'Tipo de validación SSL con verificación exhaustiva', options: [
-        ['A','Nivel básico'],['B','Validación organizativa'],['C','Validación de dominio'],['D','Validación extendida']
-      ], correct: ['D'] },
-      { id: 'P2-07', parcial: 'p2', text: 'ISO 27001:2022 — anexo A en ___ grupos', options: [["A","6"],["B","4"],["C","5"],["D","3"]], correct: ['B'] },
-      { id: 'P2-08', parcial: 'p2', text: '¿Por qué el Preprocesamiento es crucial en biometría?', options: [
-        ['A','Genera claves criptográficas'],['B','Cifra plantillas'],['C','Autenticación previa al registro'],['D','Mejora calidad y reduce ruido']
-      ], correct: ['D'] },
-      { id: 'P2-09', parcial: 'p2', text: 'La fijación de sesión ocurre cuando…', options: [["A","Verdadero"],["B","Falso"]], correct: ['A'] },
-      { id: 'P2-10', parcial: 'p2', text: 'Malware que cifra archivos y exige pago', options: [
-        ['A','Spyware'],['B','Ransomware'],['C','Troyano'],['D','Adware']
-      ], correct: ['B'] },
-      { id: 'P2-11', parcial: 'p2', text: 'Orden correcto de fases APT', subtitle:'(b,a,d,c,f,e,g)', options: [
-        ['A','b,a,d,c,f,e,g'],['B','b,d,a,c,f,e,g'],['C','b,a,f,d,e,c,g'],['D','b,a,d,c,e,f,g']
-      ], correct: ['A'] },
-      { id: 'P2-12', parcial: 'p2', text: 'Sobre “información crítica” (seleccione todas)', options: [
-        ['A','Su pérdida no afecta continuidad'],['B','Su pérdida puede interrumpir operaciones'],['C','Es fundamental para objetivos y actividades'],['D','Es secundaria']
-      ], correct: ['B','C'] },
-      { id: 'P2-13', parcial: 'p2', text: 'Firma electrónica con máximas garantías', options: [
-        ['A','Firma electrónica avanzada'],['B','Firma digital'],['C','Firma electrónica simple'],['D','Firma manuscrita']
-      ], correct: ['A'] },
-      { id: 'P2-14', parcial: 'p2', text: 'ISO 27001 es certificable', options: [["A","Verdadero"],["B","Falso"]], correct: ['A'] },
-      { id: 'P2-15', parcial: 'p2', text: 'Amenazas se clasifican en…', options: [
-        ['A','Internas y Externas'],['B','Info / Lógica'],['C','Software / Hardware'],['D','Físicas / Aplicaciones']
-      ], correct: ['A'] },
-      { id: 'P2-16', parcial: 'p2', text: 'CVE es una lista de identificadores únicos de vulnerabilidades', options: [["A","Verdadero"],["B","Falso"]], correct: ['A'] },
-      { id: 'P2-17', parcial: 'p2', text: 'Seguridad de la información en una organización', options: [
-        ['A','Solo protección física'],['B','Proceso integral que protege CID'],['C','Exclusivo de TI'],['D','Solo ataques externos']
-      ], correct: ['B'] },
-      { id: 'P2-18', parcial: 'p2', text: 'MITRE técnica asociada a robar credenciales en memoria', options: [
-        ['A','Keylogging'],['B','Explotar kernel'],['C','Credential Dumping'],['D','Pass-the-Hash']
-      ], correct: ['C'] },
-      { id: 'P2-19', parcial: 'p2', text: '¿Cuántas tácticas tiene MITRE ATT&CK?', options: [["A","+250"],["B","25"],["C","14"],["D","5"]], correct: ['C'] },
-      { id: 'P2-20', parcial: 'p2', text: 'Características del cifrado de Polibio (seleccione todas)', options: [
-        ['A','Requiere clave secreta'],['B','Tabla de sustitución'],['C','Par de números por letra'],['D','Transposición'],['E','Sustitución monoalfabética']
-      ], correct: ['B','C','E'] },
-      { id: 'P2-21', parcial: 'p2', text: '¿Cuál NO pertenece a un buen hash?', options: [["A","No es reversible"],["B","Mismo mensaje = mismo hash"],["C","Colisión de hash"],["D","Determinismo"]], correct: ['C'] },
-      { id: 'P2-22', parcial: 'p2', text: 'Google Dorking es…', options: [
-        ['A','Programa de Google de IA'],['B','Phishing que usa Google'],['C','Búsqueda avanzada con operadores para info sensible/no indexada'],['D','Búsquedas en Google Drive']
-      ], correct: ['C'] },
-      { id: 'P2-23', parcial: 'p2', text: 'Operación hábil, discreta y prolongada dirigida a objetivo específico', options: [["A","Vulnerabilidad"],["B","CVE"],["C","Amenaza"],["D","APT"]], correct: ['D'] },
-      { id: 'P2-24', parcial: 'p2', text: 'En un certificado SSL la CA firma la clave pública del servidor…', options: [["A","Verdadero"],["B","Falso"]], correct: ['A'] },
-      { id: 'P2-25', parcial: 'p2', text: 'Vida / multimodal / cripto biométrica — afirmación correcta', options: [
-        ['A','Liveness activa pide acciones; pasiva detecta rasgos (reflejos, microexpresiones)'],
-        ['B','Algoritmos homomórficos no permiten procesar sin descifrar'],
-        ['C','Multimodal exige misma plantilla'],
-        ['D','Protección con cifrado homomórfico “no se usa”'],
-      ], correct: ['A'] },
-      { id: 'P2-26', parcial: 'p2', text: 'Empareje conceptos: Botnet, Vector de ataque, DDoS, Backdoor (orden 1→4)', options: [
-        ['A','D, B, A, C'],['B','B, A, C, D'],['C','A, B, D, C'],['D','D, A, C, B']
-      ], correct: ['A'] },
-      { id: 'P2-27', parcial: 'p2', text: 'Herramientas para fuerza bruta vistas en clase', options: [
-        ['A','John y HashRat'],['B','John y HashCat'],['C','John y CCrypt'],['D','HashRat y HashCat']
-      ], correct: ['B'] },
-      { id: 'P2-28', parcial: 'p2', text: 'En un certificado SSL la CA firma la clave pública del servidor…', options: [["A","Verdadero"],["B","Falso"]], correct: ['A'] },
-      { id: 'P2-29', parcial: 'p2', text: 'En auditoría, pensar con perspectiva ________.', options: [["A","Atacante"],["B","Ofensiva"],["C","Hacker"],["D","Defensiva"]], correct: ['A'] },
-      { id: 'P2-30', parcial: 'p2', text: 'Sobre vulnerabilidades (elige todas)', options: [
-        ['A','Se resuelven una vez descubiertas'],['B','Ponen en riesgo CID'],['C','Se producen por alta protección']
-      ], correct: ['A','B'] },
-      { id: 'P2-31', parcial: 'p2', text: 'Clave más pequeña = ¿más segura?', options: [["A","Verdadero"],["B","Falso"]], correct: ['B'] },
-      { id: 'P2-32', parcial: 'p2', text: 'MITRE — malware que altera el MBR para bloquear acceso', options: [
-        ['A','Initial Access'],['B','Impact'],['C','Exfiltration'],['D','Privilege Escalation']
-      ], correct: ['B'] },
-      { id: 'P2-33', parcial: 'p2', text: 'Orden correcto APT (E D A F G B C)', options: [
-        ['A','EDAFGBC'],['B','EDAFGCB'],['C','DAFGEBC'],['D','ADEBCFG']
-      ], correct: ['A'] },
-      { id: 'P2-34', parcial: 'p2', text: 'Últimas dos versiones de ISO 27001', options: [
-        ['A','2012 y 2013'],['B','2022 y 2013'],['C','2022 y 2014'],['D','Solo 2022'],['E','2023 y 2013'],['F','2022 y 2025'],['G','2022 y 2012']
-      ], correct: ['B'] },
-      { id: 'P2-35', parcial: 'p2', text: '¿Qué FW filtra por puertos y estado de conexión?', options: [
-        ['A','FW Red'],['B','FW host'],['C','FW Aplicación'],['D','FW Puertos']
-      ], correct: ['A'] },
-      { id: 'P2-36', parcial: 'p2', text: 'Elementos clave de seguridad lógica', options: [
-        ['A','Anti-malware, RRHH, controles de acceso y seguridad física'],
-        ['B','Seguridad física, anti-malware, RRHH, biométrica'],
-        ['C','CID'],
-        ['D','Controles de acceso, seguridad física, anti-malware'],
-      ], correct: ['A'] },
-      { id: 'P2-37', parcial: 'p2', text: 'Sobre vulnerabilidades (elige todas)', options: [
-        ['A','Se producen por alta protección'],['B','Pueden resolverse al descubrirse'],['C','Nunca comprometen integridad'],['D','Ponen en riesgo CID']
-      ], correct: ['B','D'] },
-      { id: 'P2-38', parcial: 'p2', text: 'Medidas para proteger login (elige todas)', options: [
-        ['A','MFA'],['B','Permitir contraseñas simples'],['C','Guardar contraseñas en texto plano'],['D','SSL/TLS en el navegador'],['E','Hash seguro en BD']
-      ], correct: ['A','D','E'] },
-      { id: 'P2-39', parcial: 'p2', text: 'Tecnología para prevenir spyware/adware', options: [
-        ['A','antispyware'],['B','Antivirus Red'],['C','Firewall'],['D','WAF']
-      ], correct: ['A'] },
-      { id: 'P2-40', parcial: 'p2', text: 'Tipo de XSS que no persiste en servidor (se ejecuta al visitar)', options: [
-        ['A','XSS persistente'],['B','XSS basado en DOM'],['C','Inyección SQL'],['D','XSS reflejado']
-      ], correct: ['D'] },
-      { id: 'P2-41', parcial: 'p2', text: 'La táctica del MOVIMIENTO LATERAL consiste en…', options: [
-        ['A','Acceder a recursos adicionales'],['B','Evadir defensas'],['C','Impactar sistemas'],['D','Preparar recursos']
-      ], correct: ['A'] },
-      { id: 'P2-42', parcial: 'p2', text: 'Usuario que puede iniciar sesión por Telnet con contraseña en blanco', options: [["A","root"],["B","sysadmin"],["C","superadmin"],["D","admin"]], correct: ['A'] },
-      { id: 'P2-43', parcial: 'p2', text: 'ISO 27001:2022 — protección de activos físicos (seleccione todas)', options: [
-        ['A','Firewalls y antivirus'],['B','Monitoreo de redes internas'],['C','Servidores resguardados y control de accesos'],['D','Restringir uso de USB en estaciones']
-      ], correct: ['C','D'] },
-      { id: 'P2-44', parcial: 'p2', text: 'Componentes clave de una PKI (seleccione todas)', options: [
-        ['A','Autoridad de Certificación (CA)'],['B','Centro de Datos'],['C','Almacén de Claves (Key Store / HSM)'],['D','SMTP'],['E','CAP']
-      ], correct: ['A','C'] },
-      { id: 'P2-45', parcial: 'p2', text: 'Acceso indebido a BD sensible implica…', options: [
-        ['A','Integridad'],['B','Confidencialidad'],['C','Disponibilidad'],['D','Autenticidad']
-      ], correct: ['B'] },
-      { id: 'P2-46', parcial: 'p2', text: 'El spyware no afecta rendimiento porque es invisible.', options: [["A","Verdadero"],["B","Falso"]], correct: ['B'] },
-      { id: 'P2-47', parcial: 'p2', text: 'Principales servicios PKI (seleccione todas)', options: [
-        ['A','Emisión y gestión de certificados'],['B','Validación de identidad'],['C','Generación de tokens'],['D','Políticas de seguridad de red'],['E','Gestión de claves públicas y privadas']
-      ], correct: ['A','B','E'] },
-      { id: 'P2-48', parcial: 'p2', text: '¿Qué distingue esteganografía de criptografía?', options: [
-        ['A','Cripto transforma; estego oculta en un medio'],['B','Estego solo en imágenes'],['C','Estego cifra'],['D','Cripto no altera estructura']
-      ], correct: ['A'] },
-      { id: 'P2-49', parcial: 'p2', text: '¿Qué es seguridad informática? (seleccione las correctas)', options: [
-        ['A','Proteger info de sistemas para mitigar amenazas, riesgos y ataques'],
-        ['B','Proteger confidencialidad de info, sistemas y redes de amenazas/riesgos/ataques'],
-        ['C','Proteger integridad de info, sistemas y redes de amenazas/riesgos/ataques'],
-        ['D','Proteger info digital, sistemas y redes de amenazas/riesgos/ataques'],
-      ], correct: ['A','B','D'] },
-      { id: 'P2-50', parcial: 'p2', text: 'Técnica de esteganografía que modifica bits menos significativos', options: [
-        ['A','Espacios en blanco en texto'],['B','LSB'],['C','ASCII'],['D','Cifrado simétrico + estego']
-      ], correct: ['B'] },
-    ];
+  { id: 'P1-03', parcial: 'p1', text: 'La validación en la academia se caracteriza por:', options: [
+    ['A','Un piloto con usuarios reales en contexto real'],
+    ['B','Ser conducida por los estudiantes/desarrolladores en entorno académico para capturar fallas obvias'],
+    ['C','Ser una revisión contractual por el cliente'],
+    ['D','Medir solo variables de transformación en el contexto'],
+  ], correct: ['B'] },
 
-    // Dedupe defensivo por texto (por si hay repetidas exactas)
-    (function () {
-      function normalizeText(s) {
-        return (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
-      }
-      function dedupeByText(arr) {
-        const seen = new Set();
-        const out = [];
-        for (const q of arr) {
-          const key = normalizeText(q.text);
-          if (seen.has(key)) continue;
-          seen.add(key);
-          out.push(q);
-        }
-        return out;
-      }
-      RAW = dedupeByText(RAW);
-    })();
+  { id: 'P1-04', parcial: 'p1', text: 'La validación estática se realiza principalmente con:', options: [
+    ['A','Usuarios reales en un piloto completo'],
+    ['B','Representantes del beneficiario/cliente o usuarios representativos, durante iteraciones/cambios'],
+    ['C','Solo con herramientas automáticas de análisis de código'],
+    ['D','Solo con jurados académicos en sustentación'],
+  ], correct: ['B'] },
+
+  { id: 'P1-05', parcial: 'p1', text: 'La validación dinámica consiste en:', options: [
+    ['A','Pruebas unitarias y de integración únicamente'],
+    ['B','Evaluación de un piloto con usuarios reales midiendo variables ligadas al objetivo/pregunta/hipótesis'],
+    ['C','Revisión de requisitos sin interacción de usuarios'],
+    ['D','Auditoría legal del proyecto'],
+  ], correct: ['B'] },
+
+  { id: 'P1-06', parcial: 'p1', text: 'Según la sesión, en validación dinámica se pueden usar elementos de investigación porque:', options: [
+    ['A','La investigación elimina por completo variables extrañas'],
+    ['B','Permite diseñar la recolección/análisis de datos para corroborar el objetivo o responder la pregunta inicial'],
+    ['C','Obliga a usar siempre etnografía'],
+    ['D','Solo aplica a proyectos de ciencias sociales'],
+  ], correct: ['B'] },
+
+  { id: 'P1-07', parcial: 'p1', text: 'En la fase de validación dinámica, la docente recalcó que normalmente el tiempo no alcanza para:', options: [
+    ['A','Usar más de una estrategia de investigación en paralelo'],
+    ['B','Hacer ninguna medición cuantitativa'],
+    ['C','Tener variables de interés'],
+    ['D','Documentar evidencias'],
+  ], correct: ['A'] },
+
+  { id: 'P1-08', parcial: 'p1', text: 'Una variable es:', options: [
+    ['A','Un algoritmo para cifrar información'],
+    ['B','Una característica/propiedad de un objeto/persona/grupo que puede adquirir diferentes valores'],
+    ['C','Un requisito no funcional obligatorio'],
+    ['D','Una tabla de una base de datos'],
+  ], correct: ['B'] },
+
+  { id: 'P1-09', parcial: 'p1', text: 'En un modelo causal, las variables independientes y dependientes se entienden como:', options: [
+    ['A','Independiente = efecto; Dependiente = causa'],
+    ['B','Independiente = causa; Dependiente = efecto'],
+    ['C','Independiente = algo no medible; Dependiente = medible'],
+    ['D','Ambas son lo mismo'],
+  ], correct: ['B'] },
+
+  { id: 'P1-10', parcial: 'p1', text: 'Las variables extrañas (confusoras) son aquellas que:', options: [
+    ['A','No se pueden medir por definición'],
+    ['B','No dependen del contexto y siempre son constantes'],
+    ['C','No puedo controlar totalmente y podrían afectar el resultado de la variable dependiente'],
+    ['D','Solo aparecen en validación en la academia'],
+  ], correct: ['C'] },
+
+  { id: 'P1-11', parcial: 'p1', text: '¿Qué se debe hacer con las variables extrañas según la sesión?', options: [
+    ['A','Ignorarlas para no complicar el análisis'],
+    ['B','Controlarlas lo más posible para que el efecto observado se deba al artefacto'],
+    ['C','Convertirlas en variables dependientes automáticamente'],
+    ['D','Medirlas solo si son cualitativas'],
+  ], correct: ['B'] },
+
+  { id: 'P1-12', parcial: 'p1', text: 'Ejemplo de variable extraña mencionado implícitamente por la docente en un caso educativo:', options: [
+    ['A','Que los profesores sean diferentes entre grupos de uso/no uso del software'],
+    ['B','Que el software use Python en lugar de Java'],
+    ['C','Que el proyecto tenga un logo distinto'],
+    ['D','Que el estudiante escriba más rápido en teclado mecánico'],
+  ], correct: ['A'] },
+
+  { id: 'P1-13', parcial: 'p1', text: 'Variables cualitativas vs cuantitativas:', options: [
+    ['A','Cualitativas = números; Cuantitativas = descripciones'],
+    ['B','Cualitativas = características; Cuantitativas = indicadores numéricos'],
+    ['C','Ambas son siempre numéricas'],
+    ['D','Ambas son siempre opiniones'],
+  ], correct: ['B'] },
+
+  { id: 'P1-14', parcial: 'p1', text: '“Operacionalizar” una variable significa:', options: [
+    ['A','Hacerla más abstracta para que sea general'],
+    ['B','Aterrizarla en indicadores observables/medibles con instrumentos y forma de medición'],
+    ['C','Convertirla en una hipótesis automáticamente'],
+    ['D','Eliminar dimensiones y subdimensiones para simplificar'],
+  ], correct: ['B'] },
+
+  { id: 'P1-15', parcial: 'p1', text: 'La matriz de recolección de información sirve principalmente para:', options: [
+    ['A','Diseñar la UI del sistema'],
+    ['B','Soportar y documentar cómo se validó el proyecto en las 3 fases'],
+    ['C','Reemplazar el marco teórico del proyecto'],
+    ['D','Definir el presupuesto del proyecto'],
+  ], correct: ['B'] },
+
+  { id: 'P1-16', parcial: 'p1', text: 'En la matriz, la definición de cada variable debe estar:', options: [
+    ['A','Basada en una fuente fiable/cita, no inventada'],
+    ['B','Sacada de monografías sin verificar'],
+    ['C','Solo basada en la opinión del equipo'],
+    ['D','Sin necesidad de fuente si es “obvia”'],
+  ], correct: ['A'] },
+
+  { id: 'P1-17', parcial: 'p1', text: 'Los indicadores son:', options: [
+    ['A','Los módulos de software implementados'],
+    ['B','La forma de hacer medible/observable una dimensión/subdimensión'],
+    ['C','Los objetivos específicos del proyecto'],
+    ['D','Las hipótesis del marco teórico'],
+  ], correct: ['B'] },
+
+  { id: 'P1-18', parcial: 'p1', text: 'Elementos que típicamente aparecen en la matriz (pestañas de validación):', subtitle:'(Seleccione todas)', options: [
+    ['A','Variable y definición'],
+    ['B','Dimensiones'],
+    ['C','Subdimensiones (si aplica)'],
+    ['D','Indicadores'],
+    ['E','Cómo se va a medir e instrumento'],
+    ['F','Población objetivo y tiempo previsto'],
+  ], correct: ['A','B','C','D','E','F'] },
+
+  { id: 'P1-19', parcial: 'p1', text: 'En validación en la academia, “población objetivo” normalmente:', options: [
+    ['A','Siempre es obligatoria y debe ser mínima de 100 personas'],
+    ['B','No aplica en muchos casos porque se valida con pruebas sobre el código/sistema'],
+    ['C','Debe ser solo usuarios reales externos'],
+    ['D','Se reemplaza por “jurados de sustentación”'],
+  ], correct: ['B'] },
+
+  { id: 'P1-20', parcial: 'p1', text: 'La última pestaña “Estrategia a seguir” pide:', subtitle:'(Seleccione todas)', options: [
+    ['A','Describir cómo evaluarán funcionalidad/rendimiento/usabilidad (lo que aplique)'],
+    ['B','Qué evidencias/documentos generarán y cómo'],
+    ['C','Qué método/estrategia usarán (encuesta, experimento, estudio de caso, etc.)'],
+    ['D','Solo pegar capturas de pantalla sin explicación'],
+  ], correct: ['A','B','C'] },
+
+  // -------- PARCIAL 2 (Aplicación + ejemplo de usabilidad) --------
+  { id: 'P2-01', parcial: 'p2', text: 'En validación dinámica, la docente sugiere que el proyecto se oriente por:', options: [
+    ['A','El diseño de investigación para corroborar objetivo o responder la pregunta inicial'],
+    ['B','La intuición del equipo sin mediciones'],
+    ['C','Solo métricas de rendimiento del servidor'],
+    ['D','Un análisis puramente contable'],
+  ], correct: ['A'] },
+
+  { id: 'P2-02', parcial: 'p2', text: 'Ejemplos de instrumentos para generar datos mencionados en la sesión:', subtitle:'(Seleccione todas)', options: [
+    ['A','Entrevistas'],
+    ['B','Observaciones'],
+    ['C','Cuestionarios/encuestas'],
+    ['D','Documentos'],
+    ['E','Logs del sistema'],
+    ['F','Solo “presentación final”'],
+  ], correct: ['A','B','C','D','E'] },
+
+  { id: 'P2-03', parcial: 'p2', text: 'Una pregunta de investigación recomendada para validación dinámica debería:', options: [
+    ['A','Responderse con “sí/no” solamente'],
+    ['B','Ser abierta (si es pregunta) o plantearse como hipótesis verificable (si es hipótesis)'],
+    ['C','Ser idéntica al nombre del proyecto'],
+    ['D','No mencionar variables'],
+  ], correct: ['B'] },
+
+  { id: 'P2-04', parcial: 'p2', text: 'Según el ejemplo, ¿cuál sería una variable independiente en el estudio de aulas virtuales?', options: [
+    ['A','Motivación del aprendizaje'],
+    ['B','Usabilidad'],
+    ['C','Semestre del estudiante'],
+    ['D','Cantidad de salones en la universidad'],
+  ], correct: ['B'] },
+
+  { id: 'P2-05', parcial: 'p2', text: 'Según el ejemplo, ¿cuál sería la variable dependiente?', options: [
+    ['A','Usabilidad'],
+    ['B','Motivación del aprendizaje'],
+    ['C','Tiempo de lectura del marco teórico'],
+    ['D','Cantidad de módulos del sistema'],
+  ], correct: ['B'] },
+
+  { id: 'P2-06', parcial: 'p2', text: 'En el ejemplo, la definición de “usabilidad” se apoya en:', options: [
+    ['A','ISO 9126'],
+    ['B','ISO 27001'],
+    ['C','NIST 800-53'],
+    ['D','OWASP Top 10'],
+  ], correct: ['A'] },
+
+  { id: 'P2-07', parcial: 'p2', text: 'La definición (ISO) de usabilidad en el ejemplo se centra en la capacidad del software de:', subtitle:'(Seleccione todas)', options: [
+    ['A','Ser comprendido'],
+    ['B','Ser aprendido'],
+    ['C','Ser usado'],
+    ['D','Ser atractivo para el usuario en condiciones específicas'],
+    ['E','Garantizar disponibilidad 24/7 por SLA'],
+  ], correct: ['A','B','C','D'] },
+
+  { id: 'P2-08', parcial: 'p2', text: 'Dimensiones seleccionadas en el ejemplo para “usabilidad” (por tiempo):', subtitle:'(Seleccione todas)', options: [
+    ['A','Facilidad de aprendizaje'],
+    ['B','Facilidad de uso'],
+    ['C','Confidencialidad'],
+    ['D','Escalabilidad'],
+  ], correct: ['A','B'] },
+
+  { id: 'P2-09', parcial: 'p2', text: 'En el ejemplo, una subdimensión de “facilidad de aprendizaje” fue:', options: [
+    ['A','Predictibilidad'],
+    ['B','Exfiltración'],
+    ['C','Consistencia transaccional'],
+    ['D','Balance de carga'],
+  ], correct: ['A'] },
+
+  { id: 'P2-10', parcial: 'p2', text: 'Un indicador propuesto para la predictibilidad fue:', options: [
+    ['A','Percepción del usuario sobre la dificultad para completar una tarea'],
+    ['B','Número de paquetes por segundo'],
+    ['C','Hash de contraseñas en base de datos'],
+    ['D','Uso de certificados SSL'],
+  ], correct: ['A'] },
+
+  { id: 'P2-11', parcial: 'p2', text: 'Para medir percepción del usuario en el ejemplo, el instrumento sugerido fue:', options: [
+    ['A','Logs del servidor'],
+    ['B','Cuestionario tras interactuar con el sistema'],
+    ['C','Análisis de código estático'],
+    ['D','Firewall de aplicación (WAF)'],
+  ], correct: ['B'] },
+
+  { id: 'P2-12', parcial: 'p2', text: 'En “facilidad de uso”, la literatura del ejemplo usó las dimensiones:', subtitle:'(Seleccione todas)', options: [
+    ['A','Eficacia'],
+    ['B','Eficiencia'],
+    ['C','Auditoría'],
+    ['D','Reconocimiento'],
+  ], correct: ['A','B'] },
+
+  { id: 'P2-13', parcial: 'p2', text: 'Indicadores típicos propuestos para eficacia y eficiencia en el ejemplo:', subtitle:'(Seleccione todas)', options: [
+    ['A','Completitud de una tarea'],
+    ['B','Tiempo para completarla'],
+    ['C','Cantidad de commits en Git'],
+    ['D','Número de iconos en la UI'],
+  ], correct: ['A','B'] },
+
+  { id: 'P2-14', parcial: 'p2', text: 'Para medir “completitud de tarea” y “tiempo”, la docente sugirió que podía ser mejor:', options: [
+    ['A','Observación directa de la interacción del usuario'],
+    ['B','Solo percepción en encuesta, siempre'],
+    ['C','Solo una entrevista abierta sin tareas'],
+    ['D','No medir tiempo porque sesga el estudio'],
+  ], correct: ['A'] },
+
+  { id: 'P2-15', parcial: 'p2', text: '¿Por qué recomendó estudiantes de diferentes carreras/semestres como muestra?', options: [
+    ['A','Para evitar sesgo por experiencia (variable extraña) y mejorar validez del resultado'],
+    ['B','Porque así se reduce el tiempo a 1 día'],
+    ['C','Porque la ISO lo exige'],
+    ['D','Porque la validación estática lo requiere'],
+  ], correct: ['A'] },
+
+  { id: 'P2-16', parcial: 'p2', text: 'El tiempo estimado mencionado en el ejemplo (diseñar instrumento + aplicarlo) fue de:', options: [
+    ['A','2 horas'],
+    ['B','3 días'],
+    ['C','15 días'],
+    ['D','2 meses'],
+  ], correct: ['C'] },
+
+  { id: 'P2-17', parcial: 'p2', text: 'En validación en la academia, una variable común sugerida fue:', options: [
+    ['A','Funcionalidad'],
+    ['B','Motivación del aprendizaje'],
+    ['C','Satisfacción del usuario final únicamente'],
+    ['D','Cultura organizacional'],
+  ], correct: ['A'] },
+
+  { id: 'P2-18', parcial: 'p2', text: 'Para rendimiento como variable (academia), un indicador típico mencionado fue:', options: [
+    ['A','Tiempo en que se procesa una solicitud'],
+    ['B','Color del tema de la app'],
+    ['C','Número de correos del equipo'],
+    ['D','Cantidad de pantallas diseñadas'],
+  ], correct: ['A'] },
+
+  { id: 'P2-19', parcial: 'p2', text: 'En la matriz, “cómo se va a medir” se refiere a:', options: [
+    ['A','Describir el procedimiento/ambiente de prueba o forma de capturar el dato (p.ej., logs, observación, cuestionario)'],
+    ['B','Escribir la conclusión final antes de medir'],
+    ['C','Poner solo el nombre del indicador'],
+    ['D','Poner solo el nombre del integrante que mide'],
+  ], correct: ['A'] },
+
+  { id: 'P2-20', parcial: 'p2', text: '¿Qué afirmación es correcta sobre dimensiones y subdimensiones?', options: [
+    ['A','Siempre son obligatorias y deben ser mínimo 10'],
+    ['B','Las subdimensiones solo se usan si son necesarias; ayudan a aterrizar la variable'],
+    ['C','Las dimensiones se escriben sin indicadores'],
+    ['D','Dimensión y indicador son exactamente lo mismo'],
+  ], correct: ['B'] },
+];
+
+// Dedupe defensivo por texto (por si hay repetidas exactas)
+(function () {
+  function normalizeText(s) {
+    return (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+  function dedupeByText(arr) {
+    const seen = new Set();
+    const out = [];
+    for (const q of arr) {
+      const key = normalizeText(q.text);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push(q);
+    }
+    return out;
+  }
+  RAW = dedupeByText(RAW);
+})();
